@@ -25,6 +25,7 @@ class Hub:
         self._entities[CONF_SWITCHES] = {}
         self.online = True
         self._socket = None
+        self._connected = False
         self._recv_thread = None
         self._unload = False
         _LOGGER.debug("start server!!!")
@@ -53,10 +54,12 @@ class Hub:
                 _LOGGER.debug(f"try connect - IP : {self._host}, port : {self._port}")
                 self._socket.connect((self._host, self._port))
                 _LOGGER.debug("연결 성공")
+                self._connected = True
                 break
             except:
                 _LOGGER.error("연결 실패, 재연결 시도")
                 time.sleep(10)
+                self._connected = False
                 continue
         
     def start_server(self):
@@ -73,6 +76,9 @@ class Hub:
                 if self._unload == True:
                     return
                 _LOGGER.debug(f"recv data original : {data}")
+                if data == -1:
+                    self.connect()
+                    continue
                 if not data:
                     self.connect()
                     continue
@@ -88,12 +94,14 @@ class Hub:
                     self._entities[CONF_SENSORS][key].on_recv_data(data)
             except socket.timeout:
                 self.connect()
-            except Exception as e:
-                _LOGGER.error("error exception : " + str(e))
-                self.connect()
                 continue
+            #except socket.timeout:
+            #    self.connect()
+            #except Exception as e:
+            #    _LOGGER.error("error exception : " + str(e))
+            #    self.connect()
+            #    continue
 
-            
     def send_packet(self, data):
         self._socket.send(bytearray.fromhex(data))
 

@@ -125,6 +125,7 @@ class SensorBase(BinarySensorEntity):
     def __init__(self, device):
         """Initialize the sensor."""
         self._device = device
+        self._available = False
 
     # To link this entity to the cover device, this property must return an
     # identifiers value matching that used in the cover, but no other information such
@@ -142,13 +143,6 @@ class SensorBase(BinarySensorEntity):
             "manufacturer": self._device.manufacturer
         }
 
-
-    # This property is important to let HA know if this entity is online or not.
-    # If an entity is offline (return False), the UI will refelect this.
-    @property
-    def available(self) -> bool:
-        """Return True if roller and hub is available."""
-        return True
 
     async def async_added_to_hass(self):
         """Run when this Entity has been added to HA."""
@@ -196,6 +190,7 @@ class BellSensor(SensorBase):
         self._device_class = DEVICE_CLASS_SOUND
         self._unique_id = self.entity_id
         self._device = device
+        self._hub = hub
 
 
     def set_state(self, state):
@@ -231,6 +226,11 @@ class BellSensor(SensorBase):
 
 
     """Sensor Properties"""
+    @property
+    def available(self) -> bool:
+        """Return True if roller and hub is available."""
+        return self._hub._connected
+
     @property
     def is_on(self):
         return self._value

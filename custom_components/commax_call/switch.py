@@ -62,6 +62,7 @@ class SwitchBase(SwitchEntity):
     def __init__(self, device):
         """Initialize the sensor."""
         self._device = device
+        self._available = False
 
     @property
     def device_info(self):
@@ -74,11 +75,6 @@ class SwitchBase(SwitchEntity):
             "model": self._device.model,
             "manufacturer": self._device.manufacturer
         }
-
-    @property
-    def available(self) -> bool:
-        """Return True if roller and hub is available."""
-        return True
 
     async def async_added_to_hass(self):
         """Run when this Entity has been added to HA."""
@@ -158,6 +154,11 @@ class CommaxSwitch(SwitchBase):
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
 
+    @property
+    def available(self) -> bool:
+        """Return True if roller and hub is available."""
+        return self._hub._connected
+        
     @property
     def extra_state_attributes(self):
         """Return entity specific state attributes."""
