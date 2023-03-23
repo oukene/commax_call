@@ -103,7 +103,10 @@ class Hub:
             #    continue
 
     def send_packet(self, data):
-        self._socket.send(bytearray.fromhex(data))
+        try:
+            self._socket.send(bytearray.fromhex(data))
+        except:
+            self.connect()
 
     @property
     def hub_id(self):
