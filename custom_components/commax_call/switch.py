@@ -8,7 +8,6 @@
 import logging
 from threading import Timer
 import threading
-from xmlrpc.client import boolean
 from typing import Optional
 from homeassistant.const import (
     STATE_UNKNOWN, STATE_UNAVAILABLE,
@@ -16,9 +15,8 @@ from homeassistant.const import (
 
 from .device import Device
 from .const import *
-from homeassistant.helpers.entity import Entity, async_generate_entity_id, generate_entity_id
-from homeassistant.helpers.event import async_track_state_change, track_state_change
-from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription, DEVICE_CLASS_SWITCH
+from homeassistant.helpers.entity import async_generate_entity_id
+from homeassistant.components.switch import SwitchEntity, DEVICE_CLASS_SWITCH
 
 
 _LOGGER = logging.getLogger(__name__)

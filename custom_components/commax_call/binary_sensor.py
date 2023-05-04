@@ -6,7 +6,6 @@
 # what the unit is, so it can display the correct range. For predefined types (such as
 # battery), the unit_of_measurement should match what's expected.
 import logging
-from xmlrpc.client import boolean
 from typing import Optional
 from homeassistant.const import (
     STATE_UNKNOWN, STATE_UNAVAILABLE,
@@ -15,18 +14,9 @@ import threading
 
 import asyncio
 
-from homeassistant import components
-from homeassistant import util
-from homeassistant.helpers.entity import Entity
-
 from .const import *
-from homeassistant.exceptions import TemplateError
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.entity import Entity, async_generate_entity_id, generate_entity_id
-from homeassistant.helpers.event import async_track_state_change, track_state_change
-from homeassistant.components.binary_sensor import BinarySensorEntity, BinarySensorEntityDescription, DEVICE_CLASS_SOUND
-
-import math
+from homeassistant.helpers.entity import async_generate_entity_id
+from homeassistant.components.binary_sensor import BinarySensorEntity, DEVICE_CLASS_SOUND
 
 _LOGGER = logging.getLogger(__name__)
 
