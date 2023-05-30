@@ -46,7 +46,12 @@ class Hub:
         self._socket = None
 
     def connect(self):
-        self.close()
+        try:
+            self.close()
+        except:
+            _LOGGER.debug("none")
+        finally:
+            self._connected = False
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.setblocking(True)
 
