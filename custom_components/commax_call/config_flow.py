@@ -14,7 +14,7 @@ from .const import DOMAIN, CONF_NAME, NAME, CONF_ADD_ENTITY_TYPE, CONF_HOST, CON
 from homeassistant import config_entries, exceptions
 from homeassistant.core import callback
 
-from homeassistant.components.binary_sensor import DEVICE_CLASS_SOUND
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.components.switch import SwitchDeviceClass
 
 
@@ -106,7 +106,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         # Default value for our multi-select.
         for host in self.data[CONF_SENSORS]:
             for e in entities:
-                if e.original_device_class == DEVICE_CLASS_SOUND and e.original_name == host[CONF_NAME]:
+                if e.original_device_class == BinarySensorDeviceClass.SOUND and e.original_name == host[CONF_NAME]:
                     
                     name = e.original_name
 
