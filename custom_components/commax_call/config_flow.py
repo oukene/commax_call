@@ -15,7 +15,7 @@ from homeassistant import config_entries, exceptions
 from homeassistant.core import callback
 
 from homeassistant.components.binary_sensor import DEVICE_CLASS_SOUND
-from homeassistant.components.switch import DEVICE_CLASS_SWITCH
+from homeassistant.components.switch import SwitchDeviceClass
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -124,7 +124,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         for host in self.data[CONF_SWITCHES]:
             for e in entities:
-                if e.original_device_class == DEVICE_CLASS_SWITCH and e.original_name == host[CONF_NAME]:
+                if e.original_device_class == SwitchDeviceClass.SWITCH and e.original_name == host[CONF_NAME]:
                     _LOGGER.debug(f"host is : {host}")
                     name = e.original_name
 

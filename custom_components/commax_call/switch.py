@@ -16,7 +16,7 @@ from homeassistant.const import (
 from .device import Device
 from .const import *
 from homeassistant.helpers.entity import async_generate_entity_id
-from homeassistant.components.switch import SwitchEntity, DEVICE_CLASS_SWITCH
+from homeassistant.components.switch import SwitchEntity, SwitchDeviceClass
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -114,7 +114,7 @@ class CommaxSwitch(SwitchBase):
         self._icon = None
         self._entity_picture = None
 
-        self._device_class = DEVICE_CLASS_SWITCH
+        self._device_class = SwitchDeviceClass.SWITCH
         self._unique_id = self.entity_id
         self._device = device
 
