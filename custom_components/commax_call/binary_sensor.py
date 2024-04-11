@@ -16,7 +16,7 @@ import asyncio
 
 from .const import *
 from homeassistant.helpers.entity import async_generate_entity_id
-from homeassistant.components.binary_sensor import BinarySensorEntity, DEVICE_CLASS_SOUND
+from homeassistant.components.binary_sensor import BinarySensorEntity, BinarySensorDeviceClass
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -177,7 +177,7 @@ class BellSensor(SensorBase):
         self._name = "{}".format(entity_name)
         self._value = False
 
-        self._device_class = DEVICE_CLASS_SOUND
+        self._device_class = BinarySensorDeviceClass.SOUND
         self._unique_id = self.entity_id
         self._device = device
         self._hub = hub
