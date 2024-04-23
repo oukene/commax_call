@@ -182,6 +182,8 @@ class BellSensor(SensorBase):
         self._device = device
         self._hub = hub
 
+    def set_available(self, state):
+        self._attr_available = state
 
     def set_state(self, state):
         _LOGGER.debug(f"call set state : {state}")
@@ -213,13 +215,6 @@ class BellSensor(SensorBase):
     def bell_force_off(self):
         _LOGGER.debug("bell force off")
         self.set_state(False)
-
-
-    """Sensor Properties"""
-    @property
-    def available(self) -> bool:
-        """Return True if roller and hub is available."""
-        return self._hub._connected
 
     @property
     def is_on(self):

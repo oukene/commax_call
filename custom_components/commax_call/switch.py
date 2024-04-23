@@ -117,6 +117,9 @@ class CommaxSwitch(SwitchBase):
         self._device_class = SwitchDeviceClass.SWITCH
         self._unique_id = self.entity_id
         self._device = device
+        
+    def set_available(self, state):
+        self._attr_available = state
 
     def set_value(self, value: float) -> None:
         self._push_count = int(min(self._push_max, int(value)))

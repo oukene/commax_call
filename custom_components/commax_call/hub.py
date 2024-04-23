@@ -44,13 +44,21 @@ class Hub:
             self._socket.close()
         self._socket = None
 
+    def set_connected(self, state):
+        self._connected = state
+        for key in self._entities[CONF_SENSORS]:
+            self._entities[CONF_SENSORS][key].set_available(True)
+        for key in self._entities[CONF_SWITCHES]:
+            self._entities[CONF_SENSORS][key].set_available(True)
+            
+
     def connect(self):
         try:
             self.close()
         except:
             _LOGGER.debug("none")
         finally:
-            self._connected = False
+            self.set_connected(False)
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.setblocking(True)
 
@@ -59,13 +67,16 @@ class Hub:
                 _LOGGER.debug(f"try connect - IP : {self._host}, port : {self._port}")
                 self._socket.connect((self._host, self._port))
                 _LOGGER.debug("연결 성공")
-                self._connected = True
+                self.set_connected(True)
                 break
             except:
                 _LOGGER.error("연결 실패, 재연결 시도")
                 time.sleep(10)
-                self._connected = False
+                self.set_connected(False)
                 continue
+
+    def isConnected(self):
+        return self._connected
         
     def start_server(self):
         #str = "02 10 02 02 09 03 02 02 09 03 10 00 00 00 40 03"
