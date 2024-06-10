@@ -103,7 +103,7 @@ class CommaxSwitch(SwitchBase):
         self.entity_id = async_generate_entity_id(
             ENTITY_ID_FORMAT, "{}_{}".format("commax_call", entity_name), hass=hass)
 
-        hub._entities[CONF_SWITCHES][self.entity_id] = self
+        hub.add_switch(self)
 
         self._name = "{}".format(entity_name)
         self._state = "off"

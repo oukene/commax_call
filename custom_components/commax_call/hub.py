@@ -37,6 +37,10 @@ class Hub:
         self._entities[CONF_SENSORS][entity.entity_id] = entity
         _LOGGER.debug(f"add sensor size {len(self._entities[CONF_SENSORS])}")
 
+    def add_switch(self, entity):
+        self._entities[CONF_SWITCHES][entity.entity_id] = entity
+        _LOGGER.debug(f"add sensor size {len(self._entities[CONF_SWITCHES])}")
+
     def close(self):
         if self._socket != None:
             _LOGGER.debug("socket close")
@@ -49,7 +53,7 @@ class Hub:
         for key in self._entities[CONF_SENSORS]:
             self._entities[CONF_SENSORS][key].set_available(True)
         for key in self._entities[CONF_SWITCHES]:
-            self._entities[CONF_SENSORS][key].set_available(True)
+            self._entities[CONF_SWITCHES][key].set_available(True)
             
 
     def connect(self):
