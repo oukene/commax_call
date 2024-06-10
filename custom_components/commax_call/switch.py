@@ -120,6 +120,7 @@ class CommaxSwitch(SwitchBase):
         
     def set_available(self, state):
         self._attr_available = state
+        self.schedule_update_ha_state()
 
     def set_value(self, value: float) -> None:
         self._push_count = int(min(self._push_max, int(value)))
