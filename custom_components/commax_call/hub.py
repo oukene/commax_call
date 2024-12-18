@@ -33,6 +33,10 @@ class Hub:
         self._recv_thread.daemon = True
         self._recv_thread.start()
 
+        self._ping_thread = threading.Thread(target=self.ping)
+        self._ping_thread.daemon = True
+        self._ping_thread.start()
+
     def add_sensor(self, entity):
         self._entities[CONF_SENSORS][entity.entity_id] = entity
         _LOGGER.debug(f"add sensor size {len(self._entities[CONF_SENSORS])}")
@@ -81,6 +85,22 @@ class Hub:
 
     def isConnected(self):
         return self._connected
+
+    def ping(self):
+        while True:
+            try:
+                if self._socket != None:
+                    self._socket.send(bytearray.fromhex("02"))
+                else:
+                    # 재연결 후 다시 보냄
+                    self.connect()
+                    self._socket.send(bytearray.fromhex("02"))
+            except:
+                # 재연결 후 다시 보냄
+                _LOGGER.error("ping, 소켓이 연결되지 않음, 재접속 후 전송 시도")
+                self.connect()
+                self._socket.send(bytearray.fromhex("02"))
+            time.sleep(60)
         
     def start_server(self):
         #str = "02 10 02 02 09 03 02 02 09 03 10 00 00 00 40 03"
